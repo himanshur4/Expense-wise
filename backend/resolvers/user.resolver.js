@@ -1,5 +1,5 @@
 import User from "../models/user.model.js";
-
+import bcrypt from "bcryptjs";
 const userResolver = {
     Mutation: {
         signUp: async (_, { input }, context) => {
@@ -37,6 +37,9 @@ const userResolver = {
         login: async (_, { input }, context) => {
             try {
                 const { username, password } = input;
+                if (!username || !password) {
+                    throw new Error("Please fill in all fields");
+                }
                 const { user } = await context.authenticate("graphql-local", { username, password });
                 await context.login(user);
                 return user;
@@ -48,10 +51,10 @@ const userResolver = {
         logout: async (_, __, context) => {
             try {
                 await context.logout();
-                req.session.destroy((err) => {
+                context.req.session.destroy((err) => {
                     if (err) throw err;
                 })
-                res.clearCookie("connect.sid");
+                context.res.clearCookie("connect.sid");
 
                 return { message: "Logged out successfully" };
             } catch (err) {
@@ -65,24 +68,24 @@ const userResolver = {
     Query: {
         authUser: async (_, __, context) => {
             try {
-                const user=await context.getUser();
+                const user = await context.getUser();
                 return user;
             } catch (err) {
                 console.error("Error in authUser:", err);
                 throw new Error(err.message || "Internal server error")
-             }
+            }
         },
         user: async (_, { userId }) => {
-           try {
-            const user=await User.findById(userId);
-            return user;
-           } catch (err) {
-            console.error("Error in user query:", err);
+            try {
+                const user = await User.findById(userId);
+                return user;
+            } catch (err) {
+                console.error("Error in user query:", err);
                 throw new Error(err.message || "Error getting user")
-           }
+            }
         }
     },
-    
+
 
 }
 
