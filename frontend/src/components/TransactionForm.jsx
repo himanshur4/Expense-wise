@@ -7,7 +7,9 @@ import toast from "react-hot-toast";
 const TransactionForm = () => {
 
 
-	const [createTransaction,{loading}]=useMutation(CREATE_TRANSACTION);
+	const [createTransaction,{loading}]=useMutation(CREATE_TRANSACTION,{
+		refetchQueries:["GetTransactions"]
+	});
 
 
 
@@ -24,6 +26,7 @@ const TransactionForm = () => {
 			location: formData.get("location"),
 			date: formData.get("date"),
 		};
+		// console.log(transactionData);
 		try {
 			await createTransaction({variables:{input:transactionData}});
 			form.reset();
