@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const GET_TRANSACTIONS=gql`
+export const GET_TRANSACTIONS = gql`
     query GetTransactions{
         transactions{
             _id
@@ -15,7 +15,7 @@ export const GET_TRANSACTIONS=gql`
 
 `;
 
-export const GET_TRANSACTION=gql`
+export const GET_TRANSACTION = gql`
     query GetTransaction($id:ID!){
         transaction(transactionId:$id){
             _id
@@ -28,5 +28,15 @@ export const GET_TRANSACTION=gql`
         }
     }
 
+
+`;
+
+export const GET_TRANSACTION_STATISTICS = gql`
+    query GetTransactionStatistics{
+        categoryStatistics{
+            category
+            totalAmount
+        }
+    }
 
 `

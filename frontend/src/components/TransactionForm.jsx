@@ -8,7 +8,7 @@ const TransactionForm = () => {
 
 
 	const [createTransaction,{loading}]=useMutation(CREATE_TRANSACTION,{
-		refetchQueries:["GetTransactions"]
+		refetchQueries:["GetTransactions","GetTransactionStatistics"]
 	});
 
 
