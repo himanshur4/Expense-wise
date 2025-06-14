@@ -2,7 +2,7 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import dotenv from "dotenv";
-
+import path from 'path';
 import passport from 'passport';
 import session from 'express-session';
 import ConnectMongo from 'connect-mongodb-session';
@@ -19,8 +19,9 @@ import { configurePassport } from './passport/passport.config.js';
 
 dotenv.config();
 configurePassport();
-const app = express();
 
+const app = express();
+const __dirname = path.resolve();
 const httpServer = http.createServer(app);
 
 const MongoDBStore=ConnectMongo(session);
@@ -70,6 +71,11 @@ app.use(
   }),
 );
 
+app.use(express.static(path.join(__dirname, "frontend/dist")));
+app.get("*", (req, res) => {
+  
+  res.sendFile(path.join(__dirname, "frontend/dist", "index.html"));
+});
 // Modified server startup
 await new Promise((resolve) =>
   httpServer.listen({ port: 4000 }, resolve),
