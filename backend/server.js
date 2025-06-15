@@ -2,7 +2,7 @@ import express from 'express';
 import http from 'http';
 import cors from 'cors';
 import dotenv from "dotenv";
-import path from 'path';
+import path from 'path'; 
 import passport from 'passport';
 import session from 'express-session';
 import ConnectMongo from 'connect-mongodb-session';
@@ -21,7 +21,7 @@ dotenv.config();
 configurePassport();
 
 const app = express();
-const __dirname = path.resolve();
+const __dirname = path.resolve(); 
 const httpServer = http.createServer(app);
 
 const MongoDBStore=ConnectMongo(session);
@@ -52,31 +52,30 @@ const server = new ApolloServer({
     resolvers: mergedResolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
-// Ensure we wait for our server to start
+
 await server.start();
 
-// Set up our Express middleware to handle CORS, body parsing,
-// and our expressMiddleware function.
+
 app.use(
   '/graphql',
   cors({
-    origin:"http://localhost:3000",
+    origin:"http://localhost:3000", // For local development only
     credentials:true,
   }),
   express.json(),
-  // expressMiddleware accepts the same arguments:
-  // an Apollo Server instance and optional configuration options
+
   expressMiddleware(server, {
      context: ({ req, res }) => buildContext({ req, res })
   }),
 );
 
+
 app.use(express.static(path.join(__dirname, "frontend/dist")));
-app.get("*", (req, res) => {
-  
+app.get("/files{/*path}", (req, res) => {
   res.sendFile(path.join(__dirname, "frontend/dist", "index.html"));
 });
-// Modified server startup
+
+
 await new Promise((resolve) =>
   httpServer.listen({ port: 4000 }, resolve),
 );
