@@ -1,8 +1,9 @@
 # Expense-wise 💸📊
 
 **Expense-wise** is a full-stack expense tracking application that helps users manage their spending with visual insights. Built with a GraphQL backend, secure authentication using Passport.js, and a dynamic frontend powered by React and Chart.js.
+
 **Live Preview:** https://expense-wise-o97x.onrender.com
----
+
 
 ## 🚀 Features
 
