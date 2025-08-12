@@ -51,7 +51,8 @@ const LoginPage = () => {
 								id='username'
 								name='username'
 								value={loginData.username}
-								onChange={handleChange}
+								onChange={handleChange} 
+								ph='try john12 (for testing)'
 							/>
 
 							<InputField
@@ -61,6 +62,7 @@ const LoginPage = () => {
 								type='password'
 								value={loginData.password}
 								onChange={handleChange}
+								ph='try 123456 (for testing)'
 							/>
 							<div>
 								<button
